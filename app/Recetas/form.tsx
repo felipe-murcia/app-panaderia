@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/src/components/Button/Button";
 import ButtonDashed from "@/src/components/ButtonDashed/Button";
 import HeaderModule from "@/src/components/HeaderModule/HeaderModule";
@@ -9,9 +9,20 @@ import InputToggle from "@/src/components/InputToggle/InputToggle";
 import Label from "@/src/components/Label/Label";
 import { Stack } from "expo-router";
 import { Text, View, ScrollView, Modal } from "react-native";
+import { IReceta } from "@/interfaces/Receta";
 
 export default function FormReceta() {
 
+  const [ receta, setReceta ] = useState<IReceta>({
+    nombre:'',
+    cantidad: 0,
+    observacion: '',
+    conPicada: false,
+    picada: 0,
+    ingredientes: [],
+    temperatura:0,
+    tiempo:0
+  })
   const [modalVisible, setModalVisible] = React.useState(false);
   const [ingredientes, setIngredientes] = React.useState([
     { id: 1, nombre: "Ingrediente 1", cantidad: "100" },
@@ -26,6 +37,10 @@ export default function FormReceta() {
       setModalVisible(false);
     }
   };
+
+  const handleSave = () => {
+    console.log(receta)
+  }
   
   return (
     <View style={{ flex: 1, padding: 20 }}>
@@ -39,13 +54,13 @@ export default function FormReceta() {
 
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20 }}>
         
-          <InputText onChangeText={()=>{}} value="" label="Nombre de la receta" placeholder="Nombre de la receta" />
-          <InputText onChangeText={()=>{}} value="" label="Temperatura (celsius)" placeholder="120" />
-          <InputText onChangeText={()=>{}} value="" label="Tiempo (minuto)" placeholder="200" />
-          <InputToggle onValueChange={()=>{}} value={false} label="Picada" />
-          <InputText onChangeText={()=>{}} value="" label={""} placeholder="Picada (gramos)" />
-          <InputTextArea onChangeText={()=>{}} value="" label="Observaciones" placeholder="..." numberOfLines={4} />
-          <InputText onChangeText={()=>{}} value="" label="Cantidad recomendada" placeholder="100 (unidades)" />
+          <InputText onChangeText={(value:string)=>setReceta({ ...receta, nombre: value })} value={receta.nombre} label="Nombre de la receta" placeholder="Nombre de la receta" />
+          <InputText onChangeText={(value:number)=>setReceta({ ...receta, temperatura: value })} value={receta.temperatura} label="Temperatura (celsius)" placeholder="120"  keyboardType="numeric" />
+          <InputText onChangeText={(value:number)=>setReceta({ ...receta, tiempo: value })} value={receta.tiempo} label="Tiempo (minuto)" placeholder="200"  keyboardType="numeric" />
+          <InputToggle onValueChange={(value:boolean)=>setReceta({ ...receta, conPicada: value })} value={receta.conPicada} label="Picada" />
+          <InputText onChangeText={(value:number)=>setReceta({ ...receta, picada: value })} value={receta.picada} label={""} placeholder="Picada (gramos)"  keyboardType="numeric" />
+          <InputTextArea onChangeText={(value:string)=>setReceta({ ...receta, observacion: value })} value={receta.observacion} label="Observaciones" placeholder="..." numberOfLines={4} />
+          <InputText onChangeText={(value:string)=>setReceta({ ...receta, nombre: value })} value={receta.cantidad} label="Cantidad recomendada" placeholder="100 (unidades)" keyboardType="numeric" />
 
           <Text style={{ fontSize: 16, fontFamily: "PoppinsMedium"}}>Ingredientes</Text>
 
@@ -60,7 +75,7 @@ export default function FormReceta() {
 
           <ButtonDashed title="Agregar" onPress={()=>setModalVisible(!modalVisible)} color="#f44336" />
 
-          <Button title="Guardar" onPress={()=>setModalVisible(!modalVisible)} color="#4caf50"  style={{ marginTop: 20 }}/>
+          <Button title="Guardar" onPress={()=>handleSave()} color="#4caf50"  style={{ marginTop: 20 }}/>
 
 
 

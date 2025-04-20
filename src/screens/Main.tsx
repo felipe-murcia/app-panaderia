@@ -17,7 +17,7 @@ export default function Main() {
 
       <ButtonMenu title="Ordenes" icon="ordenes" onPress={()=>console.log('prueba')}/>
       <ButtonMenu title="Recetas" icon="recetas" onPress={()=>router.navigate('/Recetas')}/>
-      <ButtonMenu title="Inventario" icon="productos" onPress={()=>{}}/>
+      <ButtonMenu title="Inventario" icon="productos" onPress={()=>router.navigate('/Inventario')}/>
       <ButtonMenu title="Movimientos" icon="movimientos" onPress={()=>{}}/>
     </View>
   );

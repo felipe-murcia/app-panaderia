@@ -4,8 +4,8 @@ import { TextInput, StyleSheet, View, Text } from "react-native";
 interface InputTextProps {
   label?: string; // Etiqueta opcional para el input
   placeholder?: string; // Placeholder opcional
-  value: string; // Valor del input
-  onChangeText: (text: string) => void; // Función para manejar cambios
+  value: string | number | any ; // Valor del input
+  onChangeText: (text: any) => void; // Función para manejar cambios
   secureTextEntry?: boolean; // Para entradas de tipo contraseña
   keyboardType?: "default" | "numeric" | "email-address"; // Tipo de teclado
 }

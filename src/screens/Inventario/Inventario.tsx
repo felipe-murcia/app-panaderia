@@ -2,9 +2,9 @@ import HeaderModule from "@/src/components/HeaderModule/HeaderModule";
 import { Button, Text, View } from "react-native";
 import { useRouter } from 'expo-router';
 import { useState } from "react";
-import ItemReceta from '../../components/ItemReceta/ItemReceta';
+import ItemProducto from "@/src/components/ItemProducto/ItemReceta";
 
-export default function RecetasScreen() {
+export default function InventarioScreen() {
   
   const [ data, setData ] = useState([]);
   
@@ -13,7 +13,7 @@ export default function RecetasScreen() {
 
   const handlePress = () => {
     console.log('Button pressed!');
-    router.navigate('/Recetas/form')
+    router.navigate('/Inventario/form')
   }
   return (
     <View
@@ -23,10 +23,10 @@ export default function RecetasScreen() {
       }}
     >
 
-      <HeaderModule title="Recetas" icon="plus" onPress={()=>handlePress()}/>
+      <HeaderModule title="Inventario" icon="plus" onPress={()=>handlePress()}/>
       <View>
 
-      <ItemReceta onPress={handlePress} />
+      <ItemProducto onPress={handlePress} />
         
 
 
