@@ -9,7 +9,7 @@ import InputToggle from "@/src/components/InputToggle/InputToggle";
 import Label from "@/src/components/Label/Label";
 import { Stack } from "expo-router";
 import { Text, View, ScrollView, Modal } from "react-native";
-import { IProducto } from "@/interfaces/Producto";
+import { IProducto } from "@/src/interfaces/Producto";
 
 export default function FormInventario() {
 

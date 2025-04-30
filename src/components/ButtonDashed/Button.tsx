@@ -1,4 +1,4 @@
-import { colorPrimary, colorPrimaryDark } from "@/const/color";
+import { colorPrimary, colorPrimaryDark } from "@/constant/color";
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from "react-native";
 

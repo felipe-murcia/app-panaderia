@@ -1,5 +1,5 @@
-import { colorPrimaryBase } from "@/const/color";
-import { IReceta } from "@/interfaces/Receta";
+import { colorPrimaryBase } from "@/constant/color";
+import { IReceta } from "@/src/interfaces/Receta";
 import React from "react";
 import { Text, TouchableOpacity, View, Dimensions, Image } from "react-native";
 

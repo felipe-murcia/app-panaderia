@@ -9,37 +9,44 @@ import InputToggle from "@/src/components/InputToggle/InputToggle";
 import Label from "@/src/components/Label/Label";
 import { Stack } from "expo-router";
 import { Text, View, ScrollView, Modal } from "react-native";
-import { IReceta } from "@/interfaces/Receta";
+import { IReceta } from "@/src/interfaces/Receta";
+import { RecetaService } from "@/src/services/recetaServices";
 
 export default function FormReceta() {
 
   const [ receta, setReceta ] = useState<IReceta>({
-    nombre:'',
-    cantidad: 0,
-    observacion: '',
-    conPicada: false,
-    picada: 0,
+    nombre:'Pan prueba',
+    cantidad: 10,
+    observacion: 'Prueba de receta por el momento',
+    conPicada: true,
+    picada: 200,
     ingredientes: [],
-    temperatura:0,
-    tiempo:0
+    temperatura:80,
+    tiempo:120
   })
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [ingredientes, setIngredientes] = React.useState([
-    { id: 1, nombre: "Ingrediente 1", cantidad: "100" },
-    { id: 2, nombre: "Ingrediente 2", cantidad: "200" },
-  ]);
-  const [ingrediente, setIngrediente] = React.useState({ nombre: "", cantidad: "" });
+  const [ingredientes, setIngredientes] = React.useState<{ nombre: string; cantidad: string }[]>([]);
+  const [ingrediente, setIngrediente] = React.useState<{ nombre: string; cantidad: string }>({ nombre: "", cantidad: "" });
 
   const handleSaveIngredient = () => {
     if (ingrediente.nombre && ingrediente.cantidad) {
-      setIngredientes([...ingredientes, { id: ingredientes.length + 1, ...ingrediente }]);
+      setIngredientes([...ingredientes, { ...ingrediente }]);
       setIngrediente({ nombre: "", cantidad: "" });
       setModalVisible(false);
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    
     console.log(receta)
+    try {
+      console.log('Inicia proceso:');
+      const recetaService = new RecetaService();
+      const savedReceta = await recetaService.create(receta);
+      console.log('Receta saved:', savedReceta);
+    } catch (error) {
+      console.error('Error saving receta:', error);
+    }
   }
   
   return (
@@ -64,8 +71,8 @@ export default function FormReceta() {
 
           <Text style={{ fontSize: 16, fontFamily: "PoppinsMedium"}}>Ingredientes</Text>
 
-          {ingredientes.map((item) => (
-            <View key={item.id} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderColor: "#c1c1c1", marginBottom:5   }}>  
+          {ingredientes.map((item,i) => (
+            <View key={i} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderColor: "#c1c1c1", marginBottom:5   }}>  
               <Text style={{ fontSize: 14, fontFamily: "PoppinsLight"}}>{item.nombre}</Text>
               <Text style={{ fontSize: 16, fontFamily: "PoppinsLight"}}>{item.cantidad}g</Text>
             </View>
