@@ -3,13 +3,14 @@ import { Button, Text, View } from "react-native";
 import { useRouter } from 'expo-router';
 import { useState } from "react";
 import ItemReceta from '../../components/ItemReceta/ItemReceta';
+import useRecetasService from "./hooks/useUserService";
 
 export default function RecetasScreen() {
   
-  const [ data, setData ] = useState([]);
+
+  const { recetas, loading, error, refetch } = useRecetasService();
   
   const router = useRouter();
-
 
   const handlePress = () => {
     console.log('Button pressed!');
@@ -23,10 +24,21 @@ export default function RecetasScreen() {
       }}
     >
 
-      <HeaderModule title="Recetas" icon="plus" onPress={()=>handlePress()}/>
+      <HeaderModule title="Recetas" iconEnd="plus" onPressEnd={()=>handlePress()}/>
       <View>
 
-      <ItemReceta onPress={handlePress} />
+      {
+        recetas.map((receta, i) => (
+          <ItemReceta key={i} data={receta} onPress={() => handlePress()} />
+        ))
+      }
+      {/* <ItemReceta onPress={handlePress} /> */}
+
+      {loading && <Text>Cargando recetas...</Text>}
+      {error && <Text>Error: {error}</Text>}
+      {recetas.length === 0 && !loading && <Text>No hay recetas disponibles.</Text>}
+
+      
         
 
 

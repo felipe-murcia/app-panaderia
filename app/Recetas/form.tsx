@@ -7,12 +7,16 @@ import InputText from "@/src/components/InputText/InputText";
 import InputTextArea from "@/src/components/InputTextArea/InputTextArea";
 import InputToggle from "@/src/components/InputToggle/InputToggle";
 import Label from "@/src/components/Label/Label";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { Text, View, ScrollView, Modal } from "react-native";
 import { IReceta } from "@/src/interfaces/Receta";
 import { RecetaService } from "@/src/services/recetaServices";
 
 export default function FormReceta() {
+
+  const router = useRouter();
+
+  const [ loading, setLoading ] = useState(false);
 
   const [ receta, setReceta ] = useState<IReceta>({
     nombre:'Pan prueba',
@@ -38,14 +42,17 @@ export default function FormReceta() {
 
   const handleSave = async () => {
     
-    console.log(receta)
     try {
       console.log('Inicia proceso:');
+      setLoading(true);
       const recetaService = new RecetaService();
       const savedReceta = await recetaService.create(receta);
+      if (!savedReceta) router.back();
       console.log('Receta saved:', savedReceta);
     } catch (error) {
       console.error('Error saving receta:', error);
+    } finally {
+      setLoading(false);
     }
   }
   
@@ -57,9 +64,9 @@ export default function FormReceta() {
         }}
       />
 
-      <HeaderModule title="Formulario" icon="plus" onPress={()=>console.log('Button pressed!')}/>
+      <HeaderModule title="Formulario" iconEnd="close" onPressEnd={()=>router.back()}/>
 
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20 }}>
+        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 20, paddingTop: 10 }}>
         
           <InputText onChangeText={(value:string)=>setReceta({ ...receta, nombre: value })} value={receta.nombre} label="Nombre de la receta" placeholder="Nombre de la receta" />
           <InputText onChangeText={(value:number)=>setReceta({ ...receta, temperatura: value })} value={receta.temperatura} label="Temperatura (celsius)" placeholder="120"  keyboardType="numeric" />
@@ -82,7 +89,11 @@ export default function FormReceta() {
 
           <ButtonDashed title="Agregar" onPress={()=>setModalVisible(!modalVisible)} color="#f44336" />
 
-          <Button title="Guardar" onPress={()=>handleSave()} color="#4caf50"  style={{ marginTop: 20 }}/>
+            {
+            loading ? <Text style={{ fontSize: 14, fontFamily: "PoppinsLight", textAlign: 'center', padding: 40}}>Guardando receta...</Text>
+            :<Button title="Guardar" onPress={()=>handleSave()} color="#4caf50"  style={{ marginTop: 20 }}/>
+            }
+
 
 
 

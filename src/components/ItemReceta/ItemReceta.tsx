@@ -6,8 +6,8 @@ import { Text, TouchableOpacity, View, Dimensions, Image } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 interface Props {
-    data?: IReceta;
-    onPress?: () => void;
+  data?: IReceta;
+  onPress?: () => void;
 }
 
 export default function ItemReceta({ data, onPress }: Props) {
@@ -33,8 +33,8 @@ export default function ItemReceta({ data, onPress }: Props) {
             </View>
           <View style={{ width: 5 }} />
           <View>
-            <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 16}}>{data?.nombre} Receta ejemplo</Text>
-            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 12}}>{data?.nombre} Tiempo: 12m | Temperatura: 24°</Text>
+            <Text style={{ fontFamily: 'PoppinsMedium', fontSize: 16}}>{data?.nombre} </Text>
+            <Text style={{ fontFamily: 'PoppinsLight', fontSize: 12}}>{data?.nombre} Tiempo: {data?.tiempo}m | Temperatura: {data?.temperatura}°</Text>
           </View>
         </View>
         <Image

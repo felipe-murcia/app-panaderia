@@ -18,4 +18,23 @@ export class RecetaService {
         }
     }
 
+    public async getAll(): Promise<IReceta[]> {
+        try {
+            const response = await api.get<IReceta[]>(`${this.apiURL}`)
+            return response.data
+        } catch (error) {
+            console.error('Error fetching recetas:', error);
+            throw new Error('Failed to fetch recetas.');
+        }
+    }   
+
+    public async getRecetasById(id: number): Promise<IReceta> {
+        try {
+            const response = await api.get<IReceta>(`${this.apiURL}/${id}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching receta by ID:', error);
+            throw new Error('Failed to fetch receta by ID.');
+        }
+    }
 }

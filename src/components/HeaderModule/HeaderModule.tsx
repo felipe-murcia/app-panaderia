@@ -3,19 +3,27 @@ import ButtonIcon from "../IconButton/ButtonIcon";
 
 interface Props {
     title: string;
-    onPress: () => void;
-    icon: string;
+    onPressStart?: () => void;
+    onPressEnd?: () => void;
+    iconStart?: string;
+    iconEnd?: string;
 }
 
-export default function HeaderModule({ title, onPress, icon = 'plus'}: Props) {
+export default function HeaderModule({ title, onPressStart, onPressEnd, iconStart = 'plus', iconEnd = 'right' }: Props) {
   return (
     <View>
         <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <ButtonIcon icon="right" onPress={() => console.log('prueba')}/>
+              {
+                onPressStart &&
+                <ButtonIcon icon={iconStart} onPress={onPressStart}/>
+              }
                 <Text style={{fontSize:24, fontFamily: 'PoppinsSemiBold'}}> {title}</Text> 
             </View>
-            <ButtonIcon icon={icon} onPress={onPress}/>
+            {
+                onPressEnd &&
+                <ButtonIcon icon={iconEnd} onPress={onPressEnd}/>
+            }
         </View>
       <View>
 
